@@ -14,7 +14,7 @@ const RecipeItem = ({ recipe }: RecipeItemProps) => {
             <Link to={`/recipe/${ recipe.id }`}>
                 {
                     (recipe.imagePath) ? 
-                        <Card.Img src={ recipe.imagePath } /> : 
+                        <Card.Img src={`http://localhost:3002/api/recipes/image/${recipe.imagePath}`} /> : 
                         <span><RestaurantIcon /></span>
                 }
             </Link>

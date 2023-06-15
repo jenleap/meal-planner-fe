@@ -19,7 +19,7 @@ const RecipeDetail = () => {
     }, []);
 
     async function getRecipe() {
-        const res = await fetch(`http://localhost:3000/api/recipes/${ recipeId }`);
+        const res = await fetch(`http://localhost:3002/api/recipes/${ recipeId }`);
         const json = await res.json();
         setRecipe(json);
         console.log(recipe, json);
@@ -34,7 +34,7 @@ const RecipeDetail = () => {
                         <Col md={4}>
                             <Card>
                                 <Card.Header>{ recipe.name }</Card.Header>
-                                <Card.Img src={`http://localhost:3000/uploads/${recipe.imagePath}`} className="rounded-0" />
+                                <Card.Img src={`http://localhost:3002/api/recipes/image/${recipe.imagePath}`} className="rounded-0" />
                                 <Card.Body>{ recipe.description }</Card.Body>
                             </Card>
                             <Card className="p-2 mt-3">

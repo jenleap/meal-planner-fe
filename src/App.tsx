@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import './App.css';
 import { AuthProvider } from './components/auth/auth.context';
 import AppRoutes from './routes/app-routes.component';
-import { Header } from './shared/Header';
+import Header from './components/common/Header';
 import { GlobalStyle, defaultTheme, darkTheme } from './utils';
 
 function App() {

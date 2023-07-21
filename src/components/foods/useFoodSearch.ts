@@ -17,7 +17,7 @@ export default function useFoodSearch(query: string) {
             setFoodList([]);
             setStatus("loading");
 
-            const res = await fetch('http://localhost:3000/api/foods');
+            const res = await fetch('http://localhost:3002/api/foods');
             const json = await res.json();
             localCache[query] = json.foods || [];
 

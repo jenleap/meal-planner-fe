@@ -2,12 +2,13 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { FormEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Stack, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Stack, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Measure } from '../../interfaces/Measure';
 import { Food } from '../../interfaces/Food';
-import SmallNutrientDisplay from './SmallNutrientDisplay';
 import { getLocalAuthToken } from '../../utils/auth';
+import { Form } from 'react-bootstrap';
+import SmallNutrientDisplay from '../common/SmallNutrientDisplay';
 
 const FoodCreate = () => {
     const [ name, setName ] = useState("");
@@ -63,7 +64,7 @@ const FoodCreate = () => {
 
         console.log(newFood);
 
-        const res = await fetch("http://localhost:3000/api/foods", {
+        const res = await fetch("http://localhost:3002/api/foods", {
             method: 'POST',
             headers: {
             'Authorization': 'Bearer' + getLocalAuthToken(),
@@ -75,8 +76,42 @@ const FoodCreate = () => {
         console.log(res);
     }
 
+    const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = (e.target.files) ? e.target.files[0] : null;
+
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const response = await fetch("http://localhost:3002/api/foods/label-scan", {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data); // Handle the returned JSON data as per your requirement
+            } else {
+                console.log('Error:', response.statusText);
+            }
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    }
+
     return (
         <>
+       {/*  <Typography sx={{ margin: '30px 0 0 30px', fontWeight: 'bold'}}>Scan Food Label</Typography>
+        <Form.Group className="mt-3">
+            <Form.Label>Choose an image for the recipe.</Form.Label>
+            <Form.Control 
+                type="file"
+                id="image-file"
+                onChange={uploadFileHandler} />
+        </Form.Group>
+        <Divider /> */}
         <Typography sx={{ margin: '30px 0 0 30px', fontWeight: 'bold'}}>Create New Food</Typography>
         <Box
             component="div"
@@ -132,10 +167,12 @@ const FoodCreate = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <SmallNutrientDisplay 
-                                            calories={ m.calories }
-                                            protein={ m.protein }
-                                            carbs={ m.carbs }
-                                            fat={ m.fat }
+                                           macros={{
+                                            calories: m.calories,
+                                            carbs: m.carbs,
+                                            protein: m.protein,
+                                            fat: m.fat
+                                           }}
                                         />
                                     </AccordionDetails>
                                 </Accordion> 

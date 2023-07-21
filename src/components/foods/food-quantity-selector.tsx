@@ -31,7 +31,8 @@ const FoodQuantitySelector = ({ food, addFood }: FoodQuantitySelectorProps) => {
             const measuredFood = {
                 food,
                 quantity,
-                label: measure
+                label: measure,
+                measureId: food.measures.filter(m => m.label === measure)[0].id
             };
             addFood(measuredFood);
         }

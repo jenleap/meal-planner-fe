@@ -1,6 +1,6 @@
 import { List, ListItem, ListItemText } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
-import { SplitScreen } from '../shared';
+import { SplitScreen } from '../components/common';
 
   
 export const FoodPage = () => {

@@ -94,7 +94,7 @@ const CreateRecipe = () => {
             data.append('image', "");
         }
 
-         const res = await fetch("http://localhost:3000/api/recipes", {
+         const res = await fetch("http://localhost:3002/api/recipes", {
             method: 'POST',
             headers: {
             'Authorization': 'Bearer' + getLocalAuthToken(),

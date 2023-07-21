@@ -22,7 +22,7 @@ export const FoodList = ({ query, foodSelected }: FoodListProps) => {
     }, []);
 
     async function getFoods() {
-        const res = await fetch('http://localhost:3000/api/foods');
+        const res = await fetch('http://localhost:3002/api/foods');
         const json = await res.json();
         setFoods(json.foods);
         setTotalPages(json.totalPages);

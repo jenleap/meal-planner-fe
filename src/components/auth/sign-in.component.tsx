@@ -22,7 +22,7 @@ const SignIn = () => {
             'password': password
         };
 
-       const res = await fetch("http://localhost:3000/api/auth/login", {
+       const res = await fetch("http://localhost:3002/api/auth/login", {
         method: 'POST',
         headers: {
         'Accept': 'application/json',

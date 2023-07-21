@@ -25,6 +25,7 @@ const ModalBody = styled.div`
     margin: 10% auto;
     padding: 20px;
     width: 50%;
+    max-height: 80vh;
     box-shadow: 0 5px 16px rgba(0,0,0, 0.2);
     position: relative;
 `;
@@ -34,8 +35,8 @@ const CloseModalButton = styled.button`
     background: none;
     border: none;
     position: absolute;
-    right: 40px;
-    top: 40px;
+    right: 10px;
+    top: 10px;
     width: 24px;
     height: 24px;
     padding: 0;

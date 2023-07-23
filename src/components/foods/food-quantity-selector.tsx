@@ -1,4 +1,4 @@
-import { Button, Card, FormControl, MenuItem, Select, SelectChangeEvent, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, FormControl, MenuItem, Select, SelectChangeEvent, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Food } from '../../interfaces/Food';
 import { MeasuredFood } from '../../interfaces/MeasuredFood';
@@ -7,9 +7,10 @@ import FractionSelect from '../common/FractionSelect';
 type FoodQuantitySelectorProps = {
     food: Food;
     addFood: (measuredFood: MeasuredFood) => void;
+    cancelFood: () => void;
 }
 
-const FoodQuantitySelector = ({ food, addFood }: FoodQuantitySelectorProps) => {
+const FoodQuantitySelector = ({ food, addFood, cancelFood }: FoodQuantitySelectorProps) => {
     const [ quantity, setQuantity ] = useState(0);
     const [ measure, setMeasure ] = useState("");
 
@@ -40,16 +41,16 @@ const FoodQuantitySelector = ({ food, addFood }: FoodQuantitySelectorProps) => {
 
 
     return (
-        <Card sx={{ p: 1.2, m: 1.2 }}>
+        <>
             <Stack direction="row" sx={{ mb: 1.2 }} >
                 <Typography>{ food.name } ({ food.brand })</Typography>
             </Stack>
-            <Stack direction="row" sx={{ mb: 1.2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', minWidth: '300px' }}>
                 <FractionSelect 
                     decimalNum={ quantity }
                     amountChanged={ updateQuantity }
                 />
-                    <FormControl fullWidth>
+                    <FormControl fullWidth sx={{ marginLeft: '5px'}}>
                         <Select
                             labelId="measure-select"
                             id="measure-select"
@@ -64,11 +65,12 @@ const FoodQuantitySelector = ({ food, addFood }: FoodQuantitySelectorProps) => {
                         }
                         </Select>
                     </FormControl>
-            </Stack>
-            <Stack direction="row">
-                <Button variant="outlined" className="mr-4" onClick={updateFood}>Add</Button>
-            </Stack>
-        </Card>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '15px'}}>
+                <Button onClick={ cancelFood }>Cancel</Button>
+                <Button variant="outlined" onClick={updateFood}>Add</Button>   
+            </Box>
+        </>
     )
 }
 

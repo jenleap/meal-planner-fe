@@ -119,9 +119,8 @@ const Header = () => {
           >NUTRI APP</Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link to={ page }>  
+              <Link key={page} to={ page }>  
                 <Button
-                    key={page}
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}>
                     { page.toUpperCase() }
@@ -159,8 +158,8 @@ const Header = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <Link to={ setting }> 
-                    <MenuItem key={setting} onClick={ handleCloseUserMenu }>
+                <Link key={setting} to={ setting }> 
+                    <MenuItem onClick={ handleCloseUserMenu }>
                         <Typography textAlign="center">{ setting.toUpperCase() }</Typography>
                     </MenuItem>
                 </Link>

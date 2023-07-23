@@ -1,6 +1,5 @@
 import { FormControl, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
 import { fractionConst } from '../../utils/constants';
 
 type FractionSelectProps = {
@@ -35,13 +34,14 @@ const FractionSelect = ({ decimalNum, amountChanged }: FractionSelectProps) => {
     return (
         <Stack direction="row">
             <TextField 
-                sx={{ }} 
+                sx={{width: '60px' }} 
                 variant="outlined" 
                 onChange={updateWhole} 
             />
-            <FormControl fullWidth>
+            <FormControl sx={{ marginLeft: '5px'}}>
                 <Select
                     id="fraction-select"
+                    sx={{ width: '80px'}}
                     value={ decNum }
                     onChange={updateFraction}
                 >

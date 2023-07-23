@@ -1,24 +1,22 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, List, ListItem, ListItemText, Stack, TextField, Typography } from '@mui/material';
 import { fontSize } from '@mui/system';
 import styled from 'styled-components';
-import { Food } from '../../interfaces/Food';
-import { MeasuredFood } from '../../interfaces/MeasuredFood';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from 'react';
-import FoodSelector from '../foods/food-selector.component';
-import { Modal } from '../common';
 import { FoodBlock } from '../../interfaces/FoodBlock';
 import SmallNutrientDisplay from '../common/SmallNutrientDisplay';
 import { FoodDisplayComponent } from './food-display.component';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 type FoodBlockProps = {
     block: FoodBlock,
+    openSelector: (blockId: string) => void
     handleUpdates: () => void
 }
 
 const AddWrapper = styled.span`
     margin-top: 5px;
+    margin-right: 10px !important;
     cursor: pointer;
 `;
 
@@ -26,32 +24,14 @@ const DisplayWrapper = styled.div`
     margin-top: 3px;
 `;
   
-export const FoodBlockComponent = ({ block, handleUpdates }: FoodBlockProps) => {
-    const [foodSelector, showFoodSelector] = useState(false);
-    
-
-    const closeFoodSelector = () => {
-        showFoodSelector(false);
-    }
-
-    const addFood = async (food: MeasuredFood) => {
-        console.log(food);
-        const res = await fetch(`http://localhost:3002/api/planner/${block.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-              },
-            body: JSON.stringify(food)
-        });
-        console.log(res);
-
-        handleUpdates();
-    }
+export const FoodBlockComponent = ({ block, openSelector, handleUpdates }: FoodBlockProps) => {
 
     return (
-        <Card sx={{ minWidth: 275, m: 1.2 }}>
-            <CardContent>
-                <Stack direction="row" spacing={ 2 } sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+
+        <Accordion sx={{ width: '100%'}}>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}>
+                 <Stack direction="row" spacing={ 2 } sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%'}} onClick={e => e.stopPropagation()}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Typography sx={{ fontSize: '1rem', marginRight: '20px' }} color="text.primary">
                             <span>{ block.label }</span>
@@ -60,26 +40,25 @@ export const FoodBlockComponent = ({ block, handleUpdates }: FoodBlockProps) => 
                             <SmallNutrientDisplay macros={ block.nutritionalInfo } />
                         </DisplayWrapper>
                     </Box>
-                    <AddWrapper onClick={() => showFoodSelector(true)}><AddIcon /></AddWrapper>
+                    <AddWrapper onClick={() => openSelector(block.id.toString())}><AddIcon /></AddWrapper>
                 </Stack>
-                
-                <Stack direction="row" spacing={ 2 }>
+            </AccordionSummary>
+            <AccordionDetails sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+                <Stack direction="row" spacing={ 2 } sx={{ width: "100%"}}>
                     <List sx={{ width: '100%'}}>
                         { block.foodItems.map(item => (
                             <ListItem key={ item.id }>
-                                <FoodDisplayComponent foodItem={item} />
+                                <FoodDisplayComponent 
+                                    foodItem={item} 
+                                    blockId={ block.id }
+                                    handleUpdates={ handleUpdates }
+                                />
                             </ListItem>
                         ))}
                     </List>
                 </Stack>
-            </CardContent>  
-            <Modal
-                showModal={ foodSelector }
-                closeModal={ closeFoodSelector }
-            >
-                <FoodSelector selectFood={ addFood } />
-            </Modal>
-        </Card>
+            </AccordionDetails>
+        </Accordion>
     );
 }
   

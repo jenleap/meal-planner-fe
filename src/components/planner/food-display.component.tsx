@@ -7,9 +7,12 @@ import { useEffect, useState } from "react";
 import { FoodItemDisplay } from "../../interfaces/FoodItem";
 import SaveIcon from '@mui/icons-material/Save';
 import styled from 'styled-components';
+import { getLocalAuthToken } from "../../utils/auth";
 
 type FoodDisplayComponentProps = {
     foodItem: FoodItemDisplay;
+    blockId: number;
+    handleUpdates: () => void
 }
 
 const MainLabelDiv = styled.div`
@@ -24,16 +27,40 @@ const DisplayWrapper = styled.div`
     align-items: end;
 `;
 
-export const FoodDisplayComponent = ({ foodItem }: FoodDisplayComponentProps) => {
+export const FoodDisplayComponent = ({ foodItem, blockId, handleUpdates }: FoodDisplayComponentProps) => {
     const [ editMode, setEditMode ] = useState(false);
-    const [ quantity, setQuantity ] = useState(0);
+    const [ quantity, setQuantity ] = useState("");
 
     useEffect(() => {
-        setQuantity(foodItem.quantity);
+        setQuantity(foodItem.quantity.toString());
       }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
+        const res = await fetch(`http://localhost:3002/api/planner/amount-update/${ foodItem.id }`, {
+            method: 'PATCH',
+            headers: {
+            'Authorization': 'Bearer' + getLocalAuthToken(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ quantity })
+           });
+        console.log(res);
         setEditMode(false);
+        handleUpdates();
+    }
+
+    const handleDelete = async () => {
+        const res = await fetch(`http://localhost:3002/api/planner/${ blockId }/${ foodItem.id }`, {
+            method: 'PATCH',
+            headers: {
+            'Authorization': 'Bearer' + getLocalAuthToken(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            }
+           });
+        console.log(res);
+        handleUpdates();
     }
     
     return (
@@ -41,13 +68,13 @@ export const FoodDisplayComponent = ({ foodItem }: FoodDisplayComponentProps) =>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}>
                 { (editMode) ? 
-                    <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%'}} onClick={e => e.stopPropagation()}>
                         <TextField 
                             sx={{ width: '60px', marginRight: '20px', textAlign: 'center'}}
                             key="quantity"  
                             variant="outlined" 
                             value={ quantity }
-                            onChange={ e => setQuantity(parseFloat(e.target.value))}
+                            onChange={ e => setQuantity(e.target.value)}
                         />
                         <Typography sx={{ margin: 'revert'}}>{ `${foodItem.measureLabel} ${foodItem.name}`}</Typography>
                     </Box> : 
@@ -65,7 +92,7 @@ export const FoodDisplayComponent = ({ foodItem }: FoodDisplayComponentProps) =>
                     { (editMode) ? <SaveIcon onClick={handleSave} sx={{ fontSize: '30px', cursor: 'pointer'}} color='action'/> :
                         <>
                             <EditIcon onClick={() => setEditMode(true)} sx={{ fontSize: '30px', cursor: 'pointer'}} color='action'/>
-                            <DeleteForeverIcon sx={{ fontSize: '30px', cursor: 'pointer', marginLeft: '10px'}} color='action'/>
+                            <DeleteForeverIcon onClick={ handleDelete } sx={{ fontSize: '30px', cursor: 'pointer', marginLeft: '10px'}} color='action'/>
                         </>
                     }
                 </Box>

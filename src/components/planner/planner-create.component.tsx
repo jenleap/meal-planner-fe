@@ -1,9 +1,19 @@
 import { Box, Divider, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Plan } from "../../interfaces/Plan";
-import PlannerDay from "./planner-day.component";
+import PlannerDay, { PlannerDayComponent } from "./planner-day.component";
 import styled from 'styled-components';
 import { SplitScreen } from "../common";
+
+const daysArray = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+]
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -24,7 +34,7 @@ function TabPanel(props: TabPanelProps) {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
+            {children}
           </Box>
         )}
       </div>
@@ -111,22 +121,20 @@ export const PlannerCreate = () => {
                     
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={ selectedTab } onChange={ handleChange } aria-label="tab container">
-                        <Tab label="Sunday" {...tabAttr(0)} />
-                        <Tab label="Monday" {...tabAttr(1)} />
-                        <Tab label="Tuesday" {...tabAttr(2)} />
-                        <Tab label="Wednesday" {...tabAttr(3)} />
-                        <Tab label="Thursday" {...tabAttr(4)} />
-                        <Tab label="Friday" {...tabAttr(5)} />
-                        <Tab label="Saturday" {...tabAttr(6)} />
+                      {
+                        daysArray.map((day, index) => (
+                          <Tab key={ day } label={ day } {...tabAttr(index)} />
+                        ))
+                      }
                     </Tabs>
                 </Box>
                 {
                     plan?.plannerDays.map(day => (
                         <TabPanel key={ day.id } value={ selectedTab } index={ day.day }>
-                            <PlannerDay
-                                foodBlocks={ day.foodBlocks }
-                                actualMacros={ day.dailyMacros }
+                            <PlannerDayComponent
                                 goalMacros={ getGoalMacros() }
+                                day={ day }
+                                label= { daysArray[selectedTab] }
                                 handleUpdates={ getPlan }
                             />
                         </TabPanel>

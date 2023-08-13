@@ -1,28 +1,31 @@
 import { Box, Divider, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Plan } from "../../interfaces/Plan";
-import PlannerDay, { PlannerDayComponent } from "./planner-day.component";
+import { PlannerDayProComponent } from "./planner-day-pro.component";
 import styled from 'styled-components';
 import { SplitScreen } from "../common";
 import { TabPanel } from "../common/tab-panel.component";
+import { useParams } from "react-router-dom";
 import { daysArray } from "../../utils/constants";
+import { PlanPro } from "../../interfaces/PlanPro";
 
   const Item = styled.div`
     padding: 10px;
     text-align: center;
   `;
 
-export const PlannerCreate = () => {
+export const PlannerPro = () => {
 
-    const [ plan, setPlan ] = useState<Plan | undefined>(undefined);
+    const [ plan, setPlan ] = useState<PlanPro | undefined>(undefined);
     const [ selectedTab, setSelectedTab ] = useState(0);
+
+    const { planId } = useParams();
 
     useEffect(() => {
        getPlan();
       }, []);
 
       async function getPlan() {
-        const res = await fetch('http://localhost:3002/api/planner/2');
+        const res = await fetch(`http://localhost:3002/api/planner-pro/${ planId }`);
         const json = await res.json();
         console.log(json);
         setPlan(json);
@@ -40,15 +43,6 @@ export const PlannerCreate = () => {
         }
       }
 
-      const getGoalMacros = () => {
-        return {
-          calories: plan!.calories,
-          carbs: plan!.carbs,
-          fat: plan!.fat,
-          protein: plan!.protein
-        }
-      }
-
 
     return (
         <SplitScreen leftWeight={1} rightWeight={5}>
@@ -59,26 +53,26 @@ export const PlannerCreate = () => {
               </Item>
               <Item>
                 <Typography>Calories</Typography>
-                <Typography>{ plan?.dailyMacros.calories } / { plan?.calories }</Typography>
+                <Typography>{ plan?.dailyMacros.calories }</Typography>
               </Item>
               <Item>
                 <Typography>Protein</Typography>
-                <Typography>{ plan?.dailyMacros.protein } / { plan?.protein }</Typography>
+                <Typography>{ plan?.dailyMacros.protein }</Typography>
               </Item>
               <Item>
                   <Typography>Carbs</Typography>
-                  <Typography>{ plan?.dailyMacros.carbs } / { plan?.carbs }</Typography>
+                  <Typography>{ plan?.dailyMacros.carbs }</Typography>
               </Item>
               <Item>
                   <Typography>Fat</Typography>
-                  <Typography>{ plan?.dailyMacros.fat } / { plan?.fat }</Typography>
+                  <Typography>{ plan?.dailyMacros.fat }</Typography>
               </Item>
             </Stack>
             </Paper>
             <Box sx={{ width: '100%', padding: '15px' }}>
                 <Typography sx={{ fontSize: '16px', textTransform: 'uppercase'}}>{ plan?.title }</Typography>
                     
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={ selectedTab } onChange={ handleChange } aria-label="tab container">
                       {
                         daysArray.map((day, index) => (
@@ -88,12 +82,12 @@ export const PlannerCreate = () => {
                     </Tabs>
                 </Box>
                 {
-                    plan?.plannerDays.map(day => (
+                    plan?.planDays.map(day => (
                         <TabPanel key={ day.id } value={ selectedTab } index={ day.day }>
-                            <PlannerDayComponent
-                                goalMacros={ getGoalMacros() }
+                            <PlannerDayProComponent
                                 day={ day }
                                 label= { daysArray[selectedTab] }
+                                template={ plan.template }
                                 handleUpdates={ getPlan }
                             />
                         </TabPanel>
@@ -104,4 +98,4 @@ export const PlannerCreate = () => {
     )
 }
 
-export default PlannerCreate;
+export default PlannerPro;

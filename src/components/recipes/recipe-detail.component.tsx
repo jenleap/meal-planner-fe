@@ -7,13 +7,21 @@ import { useParams } from 'react-router-dom';
 import { Recipe } from '../../interfaces/Recipe';
 import SmallNutrientDisplay from '../common/SmallNutrientDisplay';
 import { SplitScreen } from '../common';
-import { Box, List, ListItem, Typography } from '@mui/material';
+import { Box, Divider, List, ListItem, Paper, Typography } from '@mui/material';
 import styled from 'styled-components';
 
-const RecipeContainer = styled.div`
-    width: 80%;
-    margin: auto;
+type ImageContainerProps = {
+    image: string;
+}
+
+const ImageContainer = styled.div<ImageContainerProps>`
+    background-image: url(${props => require(`../../assets/images/${props.image}`)});
+    background-position: center;
+    background-size: cover;
+    width: 240px;
+    height: 240px;
 `;
+
 
 const RecipeDetail = () => {
     const [ recipe, setRecipe ] = useState<Recipe | undefined>(undefined);
@@ -32,46 +40,45 @@ const RecipeDetail = () => {
     }
 
     return (
-        <div>
-            { (recipe === undefined) ? <Loader />
-                : error ? <Message variant="danger">{ error }</Message>
-                    :
-                    <RecipeContainer>
-                        <div style={{ backgroundImage: `url('http://localhost:3002/api/recipes/image/${recipe.imagePath}')`, backgroundSize: 'cover', height: '300px', backgroundPosition: 'center'}}></div>
-                            <Box>
-                                <Typography>{ recipe.name }</Typography>
-                                <p>{ recipe.description }</p>
-                                <SmallNutrientDisplay 
-                                    macros={ recipe.nutritionalInfo }
-                                />
-                            </Box>
-                        <SplitScreen leftWeight={2} rightWeight={3}>
-                            <Box>
-                                <h3>Ingredients</h3>
-                                <List>
-                                    { (recipe.ingredients) ? (recipe.ingredients.map(i => (
-                                        <ListItem key={i.id}>
-                                            <p className="text-lowercase">
-                                                <FractionDisplay decimalNum={i.quantity}/> 
-                                                &nbsp; { i.measureLabel } { i.name }</p>
-                                        </ListItem>
-                                    ))) : null}
-                                </List>
-                            </Box>
-                            <Box>
-                                <h3>Steps</h3>
-                                <List>
-                                    { (recipe.steps) ? (recipe.steps.map(s => (
+        <Paper elevation={ 3 } sx={{ padding: '20px', width: '80%', margin: ' 20px auto'}}>
+            <Box sx={{ display: 'flex'}}>
+                <ImageContainer image="dessert.jpg"></ImageContainer>
+                <Box sx={{ marginLeft: '30px'}}>
+                    <Typography variant='h5' sx={{}}>{ recipe?.name }</Typography>
+                    <Typography variant='body1'>{ recipe?.description} </Typography>
+                    <Divider sx={{ margin: '15px 0'}} />
+                    <Typography variant='subtitle1'>Yield: { recipe?.servings} </Typography>
+                    <Typography variant='subtitle2'>Nutritional Info per Serving:</Typography>
+                    <SmallNutrientDisplay 
+                        macros={ recipe!.nutritionalInfo }
+                    />
+                </Box>
+                
+            </Box>
+            <Box sx={{ display: 'flex', marginTop: '20px'}}>
+            <Box sx={{ width: '40%'}}>
+                <Typography variant='overline'>Ingredients</Typography>
+                    <List>
+                    { (recipe?.ingredients) ? (recipe.ingredients.map(i => (
+                        <ListItem key={i.id}>
+                            <FractionDisplay decimalNum={i.quantity}/> 
+                            <Typography variant='body1'>&nbsp; { i.measureLabel } { i.name }</Typography>
+                        </ListItem>
+                    ))) : null}
+                    </List>
+            </Box>
+            <Box>
+                <Typography variant='overline'>Directions</Typography>
+                    <List>
+                                    { (recipe?.steps) ? (recipe.steps.map(s => (
                                         <ListItem key={s.id}>
-                                            <p>{ s.order }. { s.instruction }</p>
+                                            <Typography variant='body1'>{ s.order }. { s.instruction }</Typography>
                                         </ListItem>
                                     ))) : null}
                                 </List>
                             </Box>
-                    </SplitScreen>
-                    </RecipeContainer>
-            }
-        </div>
+            </Box>
+        </Paper>
     )
 }
 

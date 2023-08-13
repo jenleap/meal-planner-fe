@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 
 type FractionDisplayProps = {
@@ -44,9 +45,7 @@ const FractionDisplay = ({ decimalNum }: FractionDisplayProps) => {
     }
 
     return (
-        <span>
-            { wholeNum } { fraction }
-        </span>
+        <Typography variant='body1'>{ wholeNum } { fraction }</Typography>
     )
 }
 

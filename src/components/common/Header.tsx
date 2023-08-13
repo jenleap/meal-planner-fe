@@ -19,7 +19,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import RamenDiningIcon from '@mui/icons-material/RamenDining';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const pages = ['foods', 'recipes', 'planner'];
+const pages = ['foods', 'recipes', 'planner', 'planner-pro'];
 const settings = ['logout'];
 
 const Header = () => {

@@ -26,3 +26,13 @@ export const fractionConst = [
         label: "3/4"
     },
 ];
+
+export const daysArray = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+];

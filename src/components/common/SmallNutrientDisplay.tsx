@@ -2,7 +2,7 @@ import { Divider, Stack, Typography } from "@mui/material";
 import { NutrientGroup } from "../../interfaces/NutrientGroup";
 
 type NutrientProps = {
-    macros: NutrientGroup
+    macros: NutrientGroup | undefined;
 }
 
 const SmallNutrientDisplay = ({ macros }: NutrientProps) => {
@@ -13,16 +13,16 @@ const SmallNutrientDisplay = ({ macros }: NutrientProps) => {
             spacing={ 2 }
         >
             <Typography sx={{ fontSize: '0.8rem' }} color="text.secondary">
-                { macros.calories }cal
+                { macros?.calories }cal
             </Typography>
             <Typography sx={{ fontSize: '0.8rem' }} color="text.secondary">
-                { macros.protein }p
+                { macros?.protein }p
             </Typography>
             <Typography sx={{ fontSize: '0.8rem' }} color="text.secondary">
-                { macros.carbs }c
+                { macros?.carbs }c
             </Typography>
             <Typography sx={{ fontSize: '0.8rem' }} color="text.secondary">
-                { macros.fat }f
+                { macros?.fat }f
             </Typography>
         </Stack>
     )

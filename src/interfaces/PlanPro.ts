@@ -5,7 +5,6 @@ import { TemplatePro } from "./TemplatePro";
 export interface PlanPro {
     id: number;
     title: string;
-    template: TemplatePro;
     planDays: PlanProDay[];
     dailyMacros: NutrientGroup;
 }

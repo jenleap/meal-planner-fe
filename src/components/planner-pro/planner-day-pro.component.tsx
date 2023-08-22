@@ -1,24 +1,18 @@
 import { Box, Card, CardContent, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, Typography } from '@mui/material';
-import { fontSize } from '@mui/system';
 import styled from 'styled-components';
-import { Food } from '../../interfaces/Food';
-import { FoodBlock } from '../../interfaces/FoodBlock';
-import FoodBlockComponent, { FoodBlockProComponent } from './food-block-pro.component';
-import { NutrientGroup } from '../../interfaces/NutrientGroup';
-import SmallNutrientDisplay from '../common/SmallNutrientDisplay';
+import { FoodBlockProComponent } from './food-block-pro.component';
 import CompareNutrientDisplay from '../common/CompareNutrientDisplay';
 import { SplitScreen } from '../common';
-import FoodSelector from '../foods/food-selector.component';
 import { MeasuredFood } from '../../interfaces/MeasuredFood';
 import { useState } from 'react';
 import { PlanProDay } from '../../interfaces/PlanPro';
-import { TemplatePro } from '../../interfaces/TemplatePro';
+import SimpleFoodSelector from '../foods/simple-food-selector.component';
+import { AdvancedFoodSelector } from './advanced-food-selector';
 
 
 type PlannerDayProps = {
     day: PlanProDay,
     label: string,
-    template: TemplatePro,
     handleUpdates: () => void
 }
 
@@ -26,7 +20,7 @@ const DivWrapper = styled.div`
     margin-bottom: 20px;
 `;
   
-export const PlannerDayProComponent = ({ day, label, template, handleUpdates }: PlannerDayProps) => {
+export const PlannerDayProComponent = ({ day, label, handleUpdates }: PlannerDayProps) => {
     const [ showSelector, setShowSelector ] = useState(false);
     const [ selectedFoodBlock, setSelectedFoodBlock ] = useState("");
     
@@ -101,14 +95,13 @@ export const PlannerDayProComponent = ({ day, label, template, handleUpdates }: 
                                     </Select>
                                 </FormControl>
                                 <Divider sx={{ marginBottom: '15px'}} />
-                                <FoodSelector selectFood={ addFood } />
+                                {/* <SimpleFoodSelector selectFood={ addFood } /> */}
+                                <AdvancedFoodSelector addFood={ addFood } />
                             </Paper>
                         ))
                     }
                     
                 </SplitScreen>
-    
-               
             </Box>
     );
 }

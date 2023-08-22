@@ -9,6 +9,7 @@ import SmallNutrientDisplay from '../common/SmallNutrientDisplay';
 import { SplitScreen } from '../common';
 import { Box, Divider, List, ListItem, Paper, Typography } from '@mui/material';
 import styled from 'styled-components';
+import { NutritionLabelRecipe } from './nutrition-label-recipe';
 
 type ImageContainerProps = {
     image: string;
@@ -20,6 +21,8 @@ const ImageContainer = styled.div<ImageContainerProps>`
     background-size: cover;
     width: 240px;
     height: 240px;
+    border: 5px solid white;
+    margin-top: -130px;
 `;
 
 
@@ -41,42 +44,38 @@ const RecipeDetail = () => {
 
     return (
         <Paper elevation={ 3 } sx={{ padding: '20px', width: '80%', margin: ' 20px auto'}}>
-            <Box sx={{ display: 'flex'}}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'grey', marginTop: '120px', paddingBottom: '15px'}}>
                 <ImageContainer image="dessert.jpg"></ImageContainer>
-                <Box sx={{ marginLeft: '30px'}}>
+                <Box sx={{ backgroundColor: 'grey', color: 'white', padding: '20px', textAlign: 'center', marginBottom: '20px'}}>
                     <Typography variant='h5' sx={{}}>{ recipe?.name }</Typography>
                     <Typography variant='body1'>{ recipe?.description} </Typography>
-                    <Divider sx={{ margin: '15px 0'}} />
-                    <Typography variant='subtitle1'>Yield: { recipe?.servings} </Typography>
-                    <Typography variant='subtitle2'>Nutritional Info per Serving:</Typography>
-                    <SmallNutrientDisplay 
-                        macros={ recipe!.nutritionalInfo }
-                    />
                 </Box>
-                
+                <NutritionLabelRecipe 
+                    servings={ recipe?.servings }
+                    nutritionalInfo={ recipe?.nutritionalInfo} />
             </Box>
-            <Box sx={{ display: 'flex', marginTop: '20px'}}>
-            <Box sx={{ width: '40%'}}>
-                <Typography variant='overline'>Ingredients</Typography>
-                    <List>
-                    { (recipe?.ingredients) ? (recipe.ingredients.map(i => (
-                        <ListItem key={i.id}>
-                            <FractionDisplay decimalNum={i.quantity}/> 
-                            <Typography variant='body1'>&nbsp; { i.measureLabel } { i.name }</Typography>
-                        </ListItem>
-                    ))) : null}
-                    </List>
-            </Box>
-            <Box>
-                <Typography variant='overline'>Directions</Typography>
-                    <List>
+            <Box sx={{ display: 'flex', marginTop: '20px', marginLeft: '15px'}}>
+                <Box sx={{ width: '40%'}}>
+                    <Typography variant='overline'>Ingredients</Typography>
+                        <List>
+                        { (recipe?.ingredients) ? (recipe.ingredients.map(i => (
+                            <ListItem key={i.id}>
+                                <FractionDisplay decimalNum={i.quantity}/> 
+                                <Typography variant='body1'>&nbsp; { i.measureLabel } { i.name }</Typography>
+                            </ListItem>
+                        ))) : null}
+                        </List>
+                </Box>
+                <Box>
+                    <Typography variant='overline'>Directions</Typography>
+                        <List>
                                     { (recipe?.steps) ? (recipe.steps.map(s => (
                                         <ListItem key={s.id}>
                                             <Typography variant='body1'>{ s.order }. { s.instruction }</Typography>
                                         </ListItem>
                                     ))) : null}
-                                </List>
-                            </Box>
+                        </List>
+                </Box>
             </Box>
         </Paper>
     )

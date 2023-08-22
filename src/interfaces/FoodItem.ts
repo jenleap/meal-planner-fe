@@ -1,3 +1,4 @@
+import { Food } from "./Food";
 import { NutrientGroup } from "./NutrientGroup";
 
 export interface FoodItemDisplay {
@@ -6,4 +7,6 @@ export interface FoodItemDisplay {
     name: string,
     measureLabel: string
     nutritionalInfo: NutrientGroup;
+    food?: Food,
+    measureId?: number
 }

@@ -13,7 +13,7 @@ type FoodSelectorProps = {
     selectFood: (measuredFood: MeasuredFood) => void;
 }
 
-const FoodSelector = ({ selectFood }: FoodSelectorProps) => {
+const SimpleFoodSelector = ({ selectFood }: FoodSelectorProps) => {
     const [selectedFood, setFood] = useState<Food | undefined>(undefined);
     const [query, setQuery] = useState('');
 
@@ -63,4 +63,4 @@ const FoodSelector = ({ selectFood }: FoodSelectorProps) => {
     )
 }
 
-export default FoodSelector;
+export default SimpleFoodSelector;

@@ -8,7 +8,7 @@ import { NutrientGroup } from '../../interfaces/NutrientGroup';
 import SmallNutrientDisplay from '../common/SmallNutrientDisplay';
 import CompareNutrientDisplay from '../common/CompareNutrientDisplay';
 import { SplitScreen } from '../common';
-import FoodSelector from '../foods/food-selector.component';
+import FoodSelector from '../foods/simple-food-selector.component';
 import { MeasuredFood } from '../../interfaces/MeasuredFood';
 import { useState } from 'react';
 import { PlannerDay } from '../../interfaces/PlannerDay';

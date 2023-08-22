@@ -53,7 +53,7 @@ export const RecipeList = ({ query }: RecipeListProps) => {
              <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
                         {recipes.map(recipe => (
-                            <Item>
+                            <Item key={ `recipe-${ recipe.id }`}>
                                 <Link to={`/recipes/${ recipe.id }`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                     <ListItemIcon>
                                     {(recipe.imagePath) ? 

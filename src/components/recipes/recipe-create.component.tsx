@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FoodSelector from '../foods/food-selector.component';
+import FoodSelector from '../foods/simple-food-selector.component';
 import FractionDisplay from '../common/FractionDisplay';
 import { getLocalAuthToken } from '../../utils/auth';
 import { Step } from '../../interfaces/Step';

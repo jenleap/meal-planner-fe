@@ -98,7 +98,7 @@ export const PlannerProMain = () => {
                 {(showPlanList) && 
                      <List>
                      { plans.map(plan => (
-                         <ListItem>
+                         <ListItem key={ `plan-${ plan.id }`}>
                              <Typography onClick={ () => selectPlan(plan.id) }>{ plan.title }</Typography>
                          </ListItem>
                      ))}
@@ -115,7 +115,7 @@ export const PlannerProMain = () => {
                 {(showTemplateList) && 
                     <List>
                         { templates.map(template => (
-                            <ListItem>
+                            <ListItem key={ `template-${template.id}` }>
                                 <Typography onClick={ () => selectTemplate(template.id) }>{ template.title }</Typography>
                             </ListItem>
                         ))}

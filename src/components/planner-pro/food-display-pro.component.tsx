@@ -36,7 +36,7 @@ export const FoodDisplayProComponent = ({ foodItem, blockId, handleUpdates }: Fo
       }, []);
 
     const handleSave = async () => {
-        const res = await fetch(`http://localhost:3002/api/planner/amount-update/${ foodItem.id }`, {
+        const res = await fetch(`http://localhost:3002/api/planner-pro/amount-update/${ foodItem.id }`, {
             method: 'PATCH',
             headers: {
             'Authorization': 'Bearer' + getLocalAuthToken(),
@@ -51,7 +51,7 @@ export const FoodDisplayProComponent = ({ foodItem, blockId, handleUpdates }: Fo
     }
 
     const handleDelete = async () => {
-        const res = await fetch(`http://localhost:3002/api/planner/${ blockId }/${ foodItem.id }`, {
+        const res = await fetch(`http://localhost:3002/api/planner-pro/${ blockId }/${ foodItem.id }`, {
             method: 'PATCH',
             headers: {
             'Authorization': 'Bearer' + getLocalAuthToken(),
